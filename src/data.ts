@@ -12,6 +12,7 @@ export const INITIAL_CONFIG: PortfolioConfig = {
   githubUrl: '',
   linkedinUrl: '',
   instagramUrl: '',
+  photoUrl: '',
 };
 
 export const INITIAL_PROJECTS: Project[] = [

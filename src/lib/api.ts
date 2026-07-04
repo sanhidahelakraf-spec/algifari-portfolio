@@ -19,6 +19,7 @@ function mapConfigRow(row: any): PortfolioConfig {
     githubUrl: row.github_url || undefined,
     linkedinUrl: row.linkedin_url || undefined,
     instagramUrl: row.instagram_url || undefined,
+    photoUrl: row.photo_url || undefined,
   };
 }
 
@@ -36,6 +37,7 @@ function configToRow(config: PortfolioConfig) {
     github_url: config.githubUrl || null,
     linkedin_url: config.linkedinUrl || null,
     instagram_url: config.instagramUrl || null,
+    photo_url: config.photoUrl || null,
   };
 }
 

@@ -61,6 +61,7 @@ export default function AdminDashboard({
   const [profileGithubUrl, setProfileGithubUrl] = useState(config.githubUrl || '');
   const [profileLinkedinUrl, setProfileLinkedinUrl] = useState(config.linkedinUrl || '');
   const [profileInstagramUrl, setProfileInstagramUrl] = useState(config.instagramUrl || '');
+  const [profilePhotoUrl, setProfilePhotoUrl] = useState(config.photoUrl || '');
 
   // Actions for Messages
   const handleToggleRead = async (id: string) => {
@@ -158,6 +159,7 @@ export default function AdminDashboard({
       githubUrl: profileGithubUrl.trim() || undefined,
       linkedinUrl: profileLinkedinUrl.trim() || undefined,
       instagramUrl: profileInstagramUrl.trim() || undefined,
+      photoUrl: profilePhotoUrl.trim() || undefined,
     };
 
     try {
@@ -589,6 +591,31 @@ export default function AdminDashboard({
                     )}
 
                     <form onSubmit={handleUpdateProfile} className="space-y-4 border-t border-slate-100 pt-4">
+                      <div>
+                        <label className="block text-2xs font-bold text-slate-600 uppercase mb-1">Foto Profil (URL Gambar)</label>
+                        <div className="flex items-start gap-4">
+                          <div className="shrink-0 h-20 w-20 rounded-2xl overflow-hidden border border-slate-200 bg-slate-50 flex items-center justify-center">
+                            {profilePhotoUrl ? (
+                              <img src={profilePhotoUrl} alt="Preview" className="h-full w-full object-cover" />
+                            ) : (
+                              <User size={24} className="text-slate-300" />
+                            )}
+                          </div>
+                          <div className="flex-1">
+                            <input
+                              type="url"
+                              value={profilePhotoUrl}
+                              onChange={(e) => setProfilePhotoUrl(e.target.value)}
+                              placeholder="https://contoh.com/foto-saya.jpg"
+                              className="w-full rounded-lg border border-slate-200 bg-white py-2.5 px-3 text-xs text-slate-900 focus:border-sky-400 focus:outline-none focus:ring-2 focus:ring-sky-100"
+                            />
+                            <span className="text-3xs text-slate-400 mt-1 block leading-relaxed">
+                              Tempel link foto kamu di sini (upload dulu ke layanan seperti Imgur/Cloudinary, lalu salin link gambarnya). Kosongkan untuk memakai tampilan mockup default.
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+
                       <div>
                         <label className="block text-2xs font-bold text-slate-600 uppercase mb-1">Nama Portofolio</label>
                         <div className="relative">

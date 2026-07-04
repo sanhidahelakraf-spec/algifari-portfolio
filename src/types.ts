@@ -42,6 +42,7 @@ export interface PortfolioConfig {
   aboutText: string;
   availability: 'Available' | 'Busy' | 'Freelance';
   resumeUrl?: string;
+  photoUrl?: string;   // URL foto profil, ditampilkan di Hero section
   // Contact & social info (ditampilkan di section Contact publik)
   email: string;
   phoneDisplay: string;   // contoh: "+62 812-3456-789"

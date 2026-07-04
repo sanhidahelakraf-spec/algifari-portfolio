@@ -138,6 +138,33 @@ export default function Hero({ config, projectsCount }: HeroProps) {
 
           {/* Interactive visual layout (5 columns on large screens) */}
           <div className="lg:col-span-6 relative h-full flex items-center justify-center">
+            {config.photoUrl ? (
+              <motion.div
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.8, type: 'spring' }}
+                className="relative w-full max-w-sm mx-auto"
+              >
+                {/* Decorative blur accents */}
+                <div className="absolute -top-8 -left-8 w-40 h-40 bg-sky-300 rounded-full blur-3xl opacity-40 -z-10" />
+                <div className="absolute -bottom-10 -right-8 w-48 h-48 bg-indigo-300 rounded-full blur-3xl opacity-30 -z-10" />
+
+                {/* Photo Card */}
+                <div className="relative rounded-[40px] border border-white bg-white p-3 shadow-2xl shadow-sky-200/60">
+                  <img
+                    src={config.photoUrl}
+                    alt={config.name}
+                    className="w-full aspect-[4/5] object-cover rounded-[32px]"
+                  />
+                </div>
+
+                {/* Floating badge */}
+                <div className="absolute -bottom-5 left-1/2 -translate-x-1/2 flex items-center gap-2 rounded-full bg-white px-5 py-2.5 shadow-lg border border-slate-100 whitespace-nowrap">
+                  <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
+                  <span className="text-xs font-bold text-slate-700">{config.title}</span>
+                </div>
+              </motion.div>
+            ) : (
             <motion.div
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
@@ -198,6 +225,7 @@ export default function Hero({ config, projectsCount }: HeroProps) {
                 </div>
               </div>
             </motion.div>
+            )}
           </div>
 
         </div>
