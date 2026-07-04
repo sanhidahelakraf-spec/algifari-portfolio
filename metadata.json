@@ -1,0 +1,6 @@
+{
+  "name": "Algifari Portfolio",
+  "description": "Sebuah website portofolio interaktif dan profesional untuk Algifari dengan kombinasi warna biru muda yang elegan, animasi yang halus, dan dashboard admin terintegrasi.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
