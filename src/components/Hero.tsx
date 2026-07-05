@@ -69,7 +69,20 @@ export default function Hero({ config, projectsCount }: HeroProps) {
                 transition={{ duration: 0.6, delay: 0.3 }}
                 className="font-display text-5xl sm:text-6xl lg:text-[72px] font-extrabold text-slate-900 leading-[1.1] tracking-tight"
               >
-                Digital <span className="text-transparent bg-clip-text bg-gradient-to-br from-sky-400 to-blue-600">Experience</span> Designer<span className="text-sky-500">.</span>
+                {(() => {
+                  const words = config.title.trim().split(' ');
+                  const lastWord = words.pop() || '';
+                  const restTitle = words.join(' ');
+                  return (
+                    <>
+                      {restTitle && `${restTitle} `}
+                      <span className="text-transparent bg-clip-text bg-gradient-to-br from-sky-400 to-blue-600">
+                        {lastWord}
+                      </span>
+                      <span className="text-sky-500">.</span>
+                    </>
+                  );
+                })()}
               </motion.h1>
             </div>
 
@@ -80,7 +93,7 @@ export default function Hero({ config, projectsCount }: HeroProps) {
               transition={{ duration: 0.6, delay: 0.4 }}
               className="text-slate-500 text-lg leading-relaxed max-w-lg mx-auto lg:mx-0"
             >
-              Saya <span className="font-bold text-slate-800">Algifari</span>. {config.aboutText}
+              Saya <span className="font-bold text-slate-800">{config.name}</span>. {config.aboutText}
             </motion.p>
 
             {/* Action Buttons (CTAs) */}
@@ -113,17 +126,25 @@ export default function Hero({ config, projectsCount }: HeroProps) {
               transition={{ delay: 0.7 }}
               className="flex items-center justify-center lg:justify-start gap-6 pt-6 border-t border-slate-200 max-w-lg"
             >
-              <div className="flex items-center gap-3">
-                <a href="https://github.com" target="_blank" rel="noopener noreferrer" className="rounded-full border border-slate-200 p-2 text-slate-400 hover:border-sky-300 hover:text-sky-500 transition-colors bg-white shadow-sm">
-                  <Github size={18} />
-                </a>
-                <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="rounded-full border border-slate-200 p-2 text-slate-400 hover:border-sky-300 hover:text-sky-500 transition-colors bg-white shadow-sm">
-                  <Linkedin size={18} />
-                </a>
-              </div>
-              
-              <div className="h-5 w-px bg-slate-200" />
-              
+              {(config.githubUrl || config.linkedinUrl || config.instagramUrl) && (
+                <>
+                  <div className="flex items-center gap-3">
+                    {config.githubUrl && (
+                      <a href={config.githubUrl} target="_blank" rel="noopener noreferrer" className="rounded-full border border-slate-200 p-2 text-slate-400 hover:border-sky-300 hover:text-sky-500 transition-colors bg-white shadow-sm">
+                        <Github size={18} />
+                      </a>
+                    )}
+                    {config.linkedinUrl && (
+                      <a href={config.linkedinUrl} target="_blank" rel="noopener noreferrer" className="rounded-full border border-slate-200 p-2 text-slate-400 hover:border-sky-300 hover:text-sky-500 transition-colors bg-white shadow-sm">
+                        <Linkedin size={18} />
+                      </a>
+                    )}
+                  </div>
+
+                  <div className="h-5 w-px bg-slate-200" />
+                </>
+              )}
+
               <div className="flex gap-4 text-xs font-semibold text-slate-500">
                 <div>
                   <span className="text-slate-900 font-extrabold text-sm">{projectsCount}+</span> Proyek Selesai

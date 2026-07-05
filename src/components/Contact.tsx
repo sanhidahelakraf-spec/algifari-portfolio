@@ -1,7 +1,21 @@
 import React, { useState } from 'react';
 import { motion } from 'motion/react';
 import { Message, PortfolioConfig } from '../types';
-import { Mail, MapPin, Send, CheckCircle2, AlertCircle, Sparkles, Phone, MessageSquare, Github, Linkedin, Instagram } from 'lucide-react';
+import { Mail, MapPin, Send, CheckCircle2, AlertCircle, Sparkles, Phone, MessageSquare, Github, Linkedin, Instagram, ChevronRight } from 'lucide-react';
+
+// Ambil username/handle dari URL sosial media, contoh:
+// "https://instagram.com/algifari.dev" -> "@algifari.dev"
+function extractHandle(url?: string): string {
+  if (!url) return '';
+  try {
+    const clean = url.replace(/\/+$/, ''); // hapus trailing slash
+    const parts = clean.split('/');
+    const last = parts[parts.length - 1];
+    return last ? `@${last}` : '';
+  } catch {
+    return '';
+  }
+}
 
 interface ContactProps {
   config: PortfolioConfig;
@@ -91,32 +105,42 @@ export default function Contact({ config, onSendMessage }: ContactProps) {
                   Saya selalu menyambut baik diskusi seputar proyek kreatif baru, kolaborasi tim, atau konsultasi ide teknis Anda.
                 </p>
 
-                <div className="space-y-4 pt-4">
-                  <div className="flex items-center gap-4">
-                    <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-sky-50 text-sky-500 border border-sky-100/35">
+                <div className="space-y-3 pt-4">
+                  <a
+                    href={`mailto:${config.email}`}
+                    className="group flex items-center gap-4 rounded-2xl p-2 -m-2 transition-colors hover:bg-sky-50/70"
+                  >
+                    <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-sky-50 text-sky-500 border border-sky-100/35 group-hover:bg-sky-500 group-hover:text-white transition-colors">
                       <Mail size={18} />
                     </div>
-                    <div>
+                    <div className="flex-1 min-w-0">
                       <span className="text-3xs font-extrabold uppercase tracking-wider text-slate-400">Kirim Email</span>
-                      <a href={`mailto:${config.email}`} className="text-sm font-bold text-slate-800 hover:text-sky-500 transition-colors block">
+                      <span className="text-sm font-bold text-slate-800 group-hover:text-sky-600 group-hover:underline transition-colors block truncate">
                         {config.email}
-                      </a>
+                      </span>
                     </div>
-                  </div>
+                    <ChevronRight size={16} className="text-slate-300 group-hover:text-sky-500 group-hover:translate-x-0.5 transition-all shrink-0" />
+                  </a>
 
-                  <div className="flex items-center gap-4">
-                    <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-indigo-50 text-indigo-500 border border-indigo-100/35">
+                  <a
+                    href={config.whatsappUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group flex items-center gap-4 rounded-2xl p-2 -m-2 transition-colors hover:bg-indigo-50/70"
+                  >
+                    <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-indigo-50 text-indigo-500 border border-indigo-100/35 group-hover:bg-indigo-500 group-hover:text-white transition-colors">
                       <Phone size={18} />
                     </div>
-                    <div>
+                    <div className="flex-1 min-w-0">
                       <span className="text-3xs font-extrabold uppercase tracking-wider text-slate-400">Telepon / WhatsApp</span>
-                      <a href={config.whatsappUrl} target="_blank" rel="noopener noreferrer" className="text-sm font-bold text-slate-800 hover:text-indigo-500 transition-colors block">
+                      <span className="text-sm font-bold text-slate-800 group-hover:text-indigo-600 group-hover:underline transition-colors block truncate">
                         {config.phoneDisplay}
-                      </a>
+                      </span>
                     </div>
-                  </div>
+                    <ChevronRight size={16} className="text-slate-300 group-hover:text-indigo-500 group-hover:translate-x-0.5 transition-all shrink-0" />
+                  </a>
 
-                  <div className="flex items-center gap-4">
+                  <div className="flex items-center gap-4 p-2 -m-2">
                     <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-emerald-50 text-emerald-500 border border-emerald-100/35">
                       <MapPin size={18} />
                     </div>
@@ -128,24 +152,64 @@ export default function Contact({ config, onSendMessage }: ContactProps) {
                     </div>
                   </div>
 
-                  {(config.githubUrl || config.linkedinUrl || config.instagramUrl) && (
-                    <div className="flex items-center gap-3 pt-2">
-                      {config.githubUrl && (
-                        <a href={config.githubUrl} target="_blank" rel="noopener noreferrer" aria-label="GitHub" className="flex h-10 w-10 items-center justify-center rounded-xl border border-slate-100 bg-slate-50 text-slate-600 hover:bg-slate-900 hover:text-white transition-colors">
-                          <Github size={16} />
-                        </a>
-                      )}
-                      {config.linkedinUrl && (
-                        <a href={config.linkedinUrl} target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" className="flex h-10 w-10 items-center justify-center rounded-xl border border-slate-100 bg-slate-50 text-slate-600 hover:bg-sky-600 hover:text-white transition-colors">
-                          <Linkedin size={16} />
-                        </a>
-                      )}
-                      {config.instagramUrl && (
-                        <a href={config.instagramUrl} target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="flex h-10 w-10 items-center justify-center rounded-xl border border-slate-100 bg-slate-50 text-slate-600 hover:bg-pink-600 hover:text-white transition-colors">
-                          <Instagram size={16} />
-                        </a>
-                      )}
-                    </div>
+                  {config.githubUrl && (
+                    <a
+                      href={config.githubUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="group flex items-center gap-4 rounded-2xl p-2 -m-2 transition-colors hover:bg-slate-100"
+                    >
+                      <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-slate-50 text-slate-600 border border-slate-100 group-hover:bg-slate-900 group-hover:text-white transition-colors">
+                        <Github size={18} />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <span className="text-3xs font-extrabold uppercase tracking-wider text-slate-400">GitHub</span>
+                        <span className="text-sm font-bold text-slate-800 group-hover:underline transition-colors block truncate">
+                          {extractHandle(config.githubUrl) || config.name}
+                        </span>
+                      </div>
+                      <ChevronRight size={16} className="text-slate-300 group-hover:text-slate-700 group-hover:translate-x-0.5 transition-all shrink-0" />
+                    </a>
+                  )}
+
+                  {config.linkedinUrl && (
+                    <a
+                      href={config.linkedinUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="group flex items-center gap-4 rounded-2xl p-2 -m-2 transition-colors hover:bg-sky-50/70"
+                    >
+                      <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-sky-50 text-sky-600 border border-sky-100/35 group-hover:bg-sky-600 group-hover:text-white transition-colors">
+                        <Linkedin size={18} />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <span className="text-3xs font-extrabold uppercase tracking-wider text-slate-400">LinkedIn</span>
+                        <span className="text-sm font-bold text-slate-800 group-hover:text-sky-600 group-hover:underline transition-colors block truncate">
+                          {config.name}
+                        </span>
+                      </div>
+                      <ChevronRight size={16} className="text-slate-300 group-hover:text-sky-600 group-hover:translate-x-0.5 transition-all shrink-0" />
+                    </a>
+                  )}
+
+                  {config.instagramUrl && (
+                    <a
+                      href={config.instagramUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="group flex items-center gap-4 rounded-2xl p-2 -m-2 transition-colors hover:bg-pink-50/70"
+                    >
+                      <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-pink-50 text-pink-500 border border-pink-100/35 group-hover:bg-pink-500 group-hover:text-white transition-colors">
+                        <Instagram size={18} />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <span className="text-3xs font-extrabold uppercase tracking-wider text-slate-400">Instagram</span>
+                        <span className="text-sm font-bold text-slate-800 group-hover:text-pink-600 group-hover:underline transition-colors block truncate">
+                          {config.name} {extractHandle(config.instagramUrl) && `· ${extractHandle(config.instagramUrl)}`}
+                        </span>
+                      </div>
+                      <ChevronRight size={16} className="text-slate-300 group-hover:text-pink-500 group-hover:translate-x-0.5 transition-all shrink-0" />
+                    </a>
                   )}
                 </div>
               </div>

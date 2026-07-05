@@ -1,5 +1,5 @@
 import { supabase } from './supabaseClient';
-import { Project, Message, PortfolioConfig } from '../types';
+import { Project, Message, PortfolioConfig, Skill, Experience } from '../types';
 
 // =========================================
 // Mapping: baris database (snake_case) <-> tipe aplikasi (camelCase)
@@ -166,5 +166,115 @@ export async function updateMessageReadStatus(id: string, isRead: boolean): Prom
 
 export async function deleteMessage(id: string): Promise<void> {
   const { error } = await supabase.from('messages').delete().eq('id', id);
+  if (error) throw error;
+}
+
+// =========================================
+// SKILLS
+// =========================================
+
+function mapSkillRow(row: any): Skill {
+  return {
+    id: row.id,
+    name: row.name,
+    category: row.category,
+    level: row.level,
+    icon: row.icon,
+  };
+}
+
+export async function fetchSkills(): Promise<Skill[]> {
+  const { data, error } = await supabase
+    .from('skills')
+    .select('*')
+    .order('sort_order', { ascending: true });
+  if (error) {
+    console.error('Gagal mengambil skills:', error.message);
+    return [];
+  }
+  return (data || []).map(mapSkillRow);
+}
+
+export async function addSkill(skill: Omit<Skill, 'id'>): Promise<Skill> {
+  const { data, error } = await supabase
+    .from('skills')
+    .insert({
+      name: skill.name,
+      category: skill.category,
+      level: skill.level,
+      icon: skill.icon,
+    })
+    .select()
+    .single();
+  if (error) throw error;
+  return mapSkillRow(data);
+}
+
+export async function updateSkill(id: string, skill: Omit<Skill, 'id'>): Promise<Skill> {
+  const { data, error } = await supabase
+    .from('skills')
+    .update({
+      name: skill.name,
+      category: skill.category,
+      level: skill.level,
+      icon: skill.icon,
+    })
+    .eq('id', id)
+    .select()
+    .single();
+  if (error) throw error;
+  return mapSkillRow(data);
+}
+
+export async function deleteSkill(id: string): Promise<void> {
+  const { error } = await supabase.from('skills').delete().eq('id', id);
+  if (error) throw error;
+}
+
+// =========================================
+// EXPERIENCES
+// =========================================
+
+function mapExperienceRow(row: any): Experience {
+  return {
+    id: row.id,
+    role: row.role,
+    company: row.company,
+    period: row.period,
+    description: row.description,
+    tags: row.tags || [],
+  };
+}
+
+export async function fetchExperiences(): Promise<Experience[]> {
+  const { data, error } = await supabase
+    .from('experiences')
+    .select('*')
+    .order('sort_order', { ascending: true });
+  if (error) {
+    console.error('Gagal mengambil experiences:', error.message);
+    return [];
+  }
+  return (data || []).map(mapExperienceRow);
+}
+
+export async function addExperience(exp: Omit<Experience, 'id'>): Promise<Experience> {
+  const { data, error } = await supabase
+    .from('experiences')
+    .insert({
+      role: exp.role,
+      company: exp.company,
+      period: exp.period,
+      description: exp.description,
+      tags: exp.tags,
+    })
+    .select()
+    .single();
+  if (error) throw error;
+  return mapExperienceRow(data);
+}
+
+export async function deleteExperience(id: string): Promise<void> {
+  const { error } = await supabase.from('experiences').delete().eq('id', id);
   if (error) throw error;
 }

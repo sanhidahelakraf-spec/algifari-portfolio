@@ -110,7 +110,7 @@ export default function About({ config, skills, experiences }: AboutProps) {
                       animate={{ opacity: 1, scale: 1 }}
                       exit={{ opacity: 0, scale: 0.95 }}
                       transition={{ duration: 0.25 }}
-                      key={skill.name}
+                      key={skill.id}
                       className="rounded-2xl border border-slate-50 bg-slate-50/40 p-4 hover:bg-sky-50/20 hover:border-sky-100 transition-all duration-300 group"
                     >
                       <div className="flex items-center gap-3 mb-2.5">

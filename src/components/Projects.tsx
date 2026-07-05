@@ -14,7 +14,7 @@ export default function Projects({ projects }: ProjectsProps) {
     ? projects
     : projects.filter(p => p.category === filter);
 
-  const categories = ['All', 'Web App', 'Mobile App', 'Design'];
+  const categories = ['All', ...Array.from(new Set(projects.map((p) => p.category)))];
 
   return (
     <section id="projects" className="relative bg-white py-24 scroll-mt-16">

@@ -74,20 +74,20 @@ export const INITIAL_PROJECTS: Project[] = [
 
 export const INITIAL_SKILLS: Skill[] = [
   // Frontend
-  { name: 'React / Next.js', category: 'Frontend', level: 92, icon: 'Code' },
-  { name: 'TypeScript', category: 'Frontend', level: 88, icon: 'FileCode' },
-  { name: 'Tailwind CSS', category: 'Frontend', level: 95, icon: 'Layers' },
-  { name: 'Framer Motion', category: 'Frontend', level: 85, icon: 'Zap' },
+  { id: 's1', name: 'React / Next.js', category: 'Frontend', level: 92, icon: 'Code' },
+  { id: 's2', name: 'TypeScript', category: 'Frontend', level: 88, icon: 'FileCode' },
+  { id: 's3', name: 'Tailwind CSS', category: 'Frontend', level: 95, icon: 'Layers' },
+  { id: 's4', name: 'Framer Motion', category: 'Frontend', level: 85, icon: 'Zap' },
   
   // Backend
-  { name: 'Node.js / Express', category: 'Backend', level: 86, icon: 'Server' },
-  { name: 'PostgreSQL & MongoDB', category: 'Backend', level: 80, icon: 'Database' },
-  { name: 'GraphQL / REST API', category: 'Backend', level: 88, icon: 'Cpu' },
+  { id: 's5', name: 'Node.js / Express', category: 'Backend', level: 86, icon: 'Server' },
+  { id: 's6', name: 'PostgreSQL & MongoDB', category: 'Backend', level: 80, icon: 'Database' },
+  { id: 's7', name: 'GraphQL / REST API', category: 'Backend', level: 88, icon: 'Cpu' },
   
   // Design & Others
-  { name: 'UI/UX Design (Figma)', category: 'Design', level: 90, icon: 'Figma' },
-  { name: 'Git & GitHub', category: 'Others', level: 92, icon: 'GitBranch' },
-  { name: 'Docker & CI/CD', category: 'Others', level: 75, icon: 'Cloud' }
+  { id: 's8', name: 'UI/UX Design (Figma)', category: 'Design', level: 90, icon: 'Figma' },
+  { id: 's9', name: 'Git & GitHub', category: 'Others', level: 92, icon: 'GitBranch' },
+  { id: 's10', name: 'Docker & CI/CD', category: 'Others', level: 75, icon: 'Cloud' }
 ];
 
 export const INITIAL_EXPERIENCES: Experience[] = [

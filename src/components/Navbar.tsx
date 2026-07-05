@@ -1,8 +1,10 @@
 import React from 'react';
 import { motion } from 'motion/react';
 import { ShieldAlert, LogOut, ArrowRight, Home, Layout, Mail, User2, Laptop } from 'lucide-react';
+import { PortfolioConfig } from '../types';
 
 interface NavbarProps {
+  config: PortfolioConfig;
   isAdminLoggedIn: boolean;
   viewMode: 'portfolio' | 'admin';
   setViewMode: (mode: 'portfolio' | 'admin') => void;
@@ -11,6 +13,7 @@ interface NavbarProps {
 }
 
 export default function Navbar({
+  config,
   isAdminLoggedIn,
   viewMode,
   setViewMode,
@@ -18,6 +21,7 @@ export default function Navbar({
   onLogout,
 }: NavbarProps) {
   const isDashboard = viewMode === 'admin';
+  const initial = config.name.trim().charAt(0).toUpperCase() || 'A';
 
   return (
     <motion.header
@@ -39,10 +43,10 @@ export default function Navbar({
           className="flex items-center gap-3 group"
         >
           <div className="w-10 h-10 bg-sky-500 rounded-xl flex items-center justify-center text-white font-bold text-xl shadow-lg shadow-sky-200 transition-all group-hover:scale-105">
-            A
+            {initial}
           </div>
           <span className="font-display text-xl font-bold tracking-tight text-slate-900 transition-colors group-hover:text-sky-500">
-            Algifari<span className="text-sky-500 underline decoration-2 underline-offset-4">.Studio</span>
+            {config.name}<span className="text-sky-500 underline decoration-2 underline-offset-4">.Studio</span>
           </span>
         </a>
 
@@ -92,7 +96,7 @@ export default function Navbar({
               className="bg-sky-500 hover:bg-sky-600 text-white px-6 py-2.5 rounded-full shadow-md shadow-sky-200/50 hover:shadow-lg hover:shadow-sky-300/60 transition-all text-xs font-bold tracking-wide active:scale-95 flex items-center gap-1.5"
             >
               <ShieldAlert size={14} className="text-sky-200" />
-              <span>login sebagai algifari</span>
+              <span>Login Admin</span>
             </button>
           )}
         </div>

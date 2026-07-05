@@ -1,8 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import { INITIAL_CONFIG, INITIAL_SKILLS, INITIAL_EXPERIENCES } from './data';
-import { Project, Message, PortfolioConfig } from './types';
+import { INITIAL_CONFIG } from './data';
+import { Project, Message, PortfolioConfig, Skill, Experience } from './types';
 import { supabase } from './lib/supabaseClient';
-import { fetchConfig, fetchProjects, fetchMessages, sendMessage as apiSendMessage, mapProjectRow } from './lib/api';
+import {
+  fetchConfig,
+  fetchProjects,
+  fetchMessages,
+  fetchSkills,
+  fetchExperiences,
+  sendMessage as apiSendMessage,
+  mapProjectRow,
+} from './lib/api';
 
 // Component imports
 import Navbar from './components/Navbar';
@@ -21,6 +29,8 @@ export default function App() {
   const [config, setConfig] = useState<PortfolioConfig>(INITIAL_CONFIG);
   const [projects, setProjects] = useState<Project[]>([]);
   const [messages, setMessages] = useState<Message[]>([]);
+  const [skills, setSkills] = useState<Skill[]>([]);
+  const [experiences, setExperiences] = useState<Experience[]>([]);
   const [isLoadingPublicData, setIsLoadingPublicData] = useState(true);
 
   // --- Auth State (sumber: Supabase Auth session) ---
@@ -34,9 +44,16 @@ export default function App() {
   // --- Load data publik (config & projects) sekali saat pertama render ---
   useEffect(() => {
     (async () => {
-      const [configData, projectsData] = await Promise.all([fetchConfig(), fetchProjects()]);
+      const [configData, projectsData, skillsData, experiencesData] = await Promise.all([
+        fetchConfig(),
+        fetchProjects(),
+        fetchSkills(),
+        fetchExperiences(),
+      ]);
       if (configData) setConfig(configData);
       setProjects(projectsData);
+      setSkills(skillsData);
+      setExperiences(experiencesData);
       setIsLoadingPublicData(false);
     })();
   }, []);
@@ -137,6 +154,7 @@ export default function App() {
       
       {/* Sticky Header Navbar */}
       <Navbar
+        config={config}
         isAdminLoggedIn={isAdminLoggedIn}
         viewMode={viewMode}
         setViewMode={setViewMode}
@@ -151,10 +169,14 @@ export default function App() {
             projects={projects}
             messages={messages}
             config={config}
+            skills={skills}
+            experiences={experiences}
             onLogout={handleLogout}
             onUpdateProjects={setProjects}
             onUpdateMessages={setMessages}
             onUpdateConfig={setConfig}
+            onUpdateSkills={setSkills}
+            onUpdateExperiences={setExperiences}
           />
         ) : (
           <>
@@ -164,8 +186,8 @@ export default function App() {
             {/* 2. ABOUT & EXPERIENCE SECTION */}
             <About 
               config={config} 
-              skills={INITIAL_SKILLS} 
-              experiences={INITIAL_EXPERIENCES} 
+              skills={skills} 
+              experiences={experiences} 
             />
 
             {/* 3. PROJECTS SHOWCASE SECTION */}
@@ -181,10 +203,16 @@ export default function App() {
                 <div className="space-y-2">
                   <div className="flex items-center justify-center md:justify-start gap-2">
                     <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-gradient-to-tr from-sky-400 to-indigo-500 text-white font-display font-black text-xs">
-                      AG
+                      {config.name
+                        .trim()
+                        .split(' ')
+                        .map((w) => w[0])
+                        .join('')
+                        .slice(0, 2)
+                        .toUpperCase()}
                     </div>
                     <span className="font-display text-base font-bold text-white tracking-tight">
-                      Algifari<span className="text-sky-400 font-bold">.</span>
+                      {config.name}<span className="text-sky-400 font-bold">.</span>
                     </span>
                   </div>
                   <p className="text-xs text-slate-500 max-w-xs leading-relaxed">
@@ -203,10 +231,10 @@ export default function App() {
                   <p className="flex items-center justify-center md:justify-end gap-1 font-mono text-[11px]">
                     <Code size={12} className="text-sky-400" /> Crafted with
                     <Heart size={10} className="text-red-400 fill-current animate-pulse" />
-                    by Algifari
+                    by {config.name}
                   </p>
                   <p className="flex items-center justify-center md:justify-end gap-1">
-                    <Copyright size={11} /> 2026 Algifari. All rights reserved.
+                    <Copyright size={11} /> {new Date().getFullYear()} {config.name}. All rights reserved.
                   </p>
                 </div>
 
